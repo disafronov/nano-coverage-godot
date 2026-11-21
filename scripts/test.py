@@ -67,6 +67,7 @@ def run_gdunit_tests(godot_exe):
         os.path.abspath(script_path),
         "--godot_binary", godot_exe,
         "--headless",
+        "--ignoreHeadlessMode",
         "-a", GDUNIT_TEST_TARGET,
         "-c"
     ]
