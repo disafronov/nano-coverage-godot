@@ -24,42 +24,51 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: recursive
 
       - name: Setup Cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .scons_cache/
-          key: ${{ matrix.platform }}-release-${{ github.sha }}
+          key: ${{ runner.os }}-${{ matrix.platform }}-release-${{ github.sha }}
           restore-keys: |
-            ${{ matrix.platform }}-release-
+            ${{ runner.os }}-${{ matrix.platform }}-release-
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
-          python-version: '3.x'
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: .github/workflows/release.yml
 
       - name: Install SCons
-        run: pip install scons
+        run: python -m pip install scons
+
+      # godot-cpp/SConstruct reads SCONS_CACHE and configures SCons CacheDir.
+      # Keep the cache directory consistent with the actions/cache path.
 
       # COMPILE
 
       - name: Compile (Linux/Windows)
         if: ${{ matrix.platform != 'macos' }}
         # Windows runner auto-detects MSVC. Linux runner auto-detects GCC.
+        env:
+          SCONS_CACHE: .scons_cache
         run: |
-          scons platform=${{ matrix.platform }} target=editor build_tests=no cache_path=.scons_cache/
-          scons platform=${{ matrix.platform }} target=template_debug build_tests=no cache_path=.scons_cache/
+          scons platform=${{ matrix.platform }} target=editor build_tests=no
+          scons platform=${{ matrix.platform }} target=template_debug build_tests=no
 
       - name: Compile (MacOS)
         if: ${{ matrix.platform == 'macos' }}
+        env:
+          SCONS_CACHE: .scons_cache
         run: |
-          scons platform=macos arch=x86_64 target=editor build_tests=no cache_path=.scons_cache/
-          scons platform=macos arch=x86_64 target=template_debug build_tests=no cache_path=.scons_cache/
-          scons platform=macos arch=arm64 target=editor build_tests=no cache_path=.scons_cache/
-          scons platform=macos arch=arm64 target=template_debug build_tests=no cache_path=.scons_cache/
+          scons platform=macos arch=x86_64 target=editor build_tests=no
+          scons platform=macos arch=x86_64 target=template_debug build_tests=no
+          scons platform=macos arch=arm64 target=editor build_tests=no
+          scons platform=macos arch=arm64 target=template_debug build_tests=no
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
@@ -75,7 +84,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Download Artifacts
         uses: actions/download-artifact@v4
