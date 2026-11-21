@@ -67,6 +67,6 @@ TEST(CoverageApiTest, InstrumentScriptPreservesUtf8) {
     const String instrumented = result["code"];
     EXPECT_NE(instrumented.find(unicode_text), -1)
         << "Instrumented code must preserve the Unicode source text";
-    EXPECT_NE(instrumented.find(String::utf8("CoverageCollector")), -1)
+    EXPECT_NE(instrumented.find(String::utf8("NanoCoverage.hit(")), -1)
         << "The test must exercise actual instrumentation, not an ignored script";
 }
