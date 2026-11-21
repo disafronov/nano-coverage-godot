@@ -51,7 +51,10 @@ jobs:
         id: tests
         env:
           SCONS_CACHE: .scons_cache
-        run: xvfb-run -a python scripts/test.py
+        shell: bash
+        run: |
+          set -o pipefail
+          xvfb-run -a python scripts/test.py 2>&1 | tee "$RUNNER_TEMP/nanocoverage-tests.log"
 
       - name: Upload test and coverage reports
         id: reports
@@ -69,11 +72,25 @@ jobs:
         env:
           TEST_RESULT: ${{ steps.tests.outcome }}
           ARTIFACT_URL: ${{ steps.reports.outputs.artifact-url }}
+          TEST_LOG: ${{ runner.temp }}/nanocoverage-tests.log
         run: |
           {
             echo '## NanoCoverage tests'
             echo
-            echo "**C++ and GdUnit4:** ${TEST_RESULT:-not run}"
+            if [ -f "$TEST_LOG" ]; then
+              if grep -Fq "C++ Tests Passed" "$TEST_LOG"; then
+                echo "- C++ tests: passed"
+              else
+                echo "- C++ tests: not confirmed"
+              fi
+              if grep -Fq "GdUnit4 Integration Tests Passed" "$TEST_LOG"; then
+                echo "- GdUnit4 tests: passed"
+              else
+                echo "- GdUnit4 tests: not confirmed"
+              fi
+            else
+              echo "- Tests: ${TEST_RESULT:-not run}"
+            fi
             echo
             if [ -n "$ARTIFACT_URL" ]; then
               echo "[Test and coverage reports]($ARTIFACT_URL)"
