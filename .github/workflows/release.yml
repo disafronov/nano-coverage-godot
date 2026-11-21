@@ -16,7 +16,7 @@ jobs:
       matrix:
         include:
           - platform: linux
-            runner: ubuntu-latest
+            runner: ubuntu-22.04
           - platform: windows
             runner: windows-latest
           - platform: macos
@@ -87,9 +87,9 @@ jobs:
           mkdir -p demo/addons/nano_coverage_godot/bin
           
           # Copy binaries
-          cp -r artifacts/lib-linux/* demo/addons/nano_coverage_godot/bin/ || true
-          cp -r artifacts/lib-windows/* demo/addons/nano_coverage_godot/bin/ || true
-          cp -r artifacts/lib-macos/* demo/addons/nano_coverage_godot/bin/ || true
+          cp -r artifacts/lib-linux/* demo/addons/nano_coverage_godot/bin/
+          cp -r artifacts/lib-windows/* demo/addons/nano_coverage_godot/bin/
+          cp -r artifacts/lib-macos/* demo/addons/nano_coverage_godot/bin/
 
           # Cleanup any temp build files
           rm -f demo/addons/nano_coverage_godot/bin/*.exp

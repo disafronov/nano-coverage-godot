@@ -16,7 +16,7 @@ permissions:
 jobs:
   test:
     name: C++ and GdUnit4 (Linux)
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     timeout-minutes: 45
 
     steps:
