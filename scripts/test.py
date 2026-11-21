@@ -66,6 +66,7 @@ def run_gdunit_tests(godot_exe):
     cmd = [
         os.path.abspath(script_path),
         "--godot_binary", godot_exe,
+        "--headless",
         "-a", GDUNIT_TEST_TARGET,
         "-c"
     ]
