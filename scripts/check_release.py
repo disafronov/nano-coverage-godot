@@ -1,6 +1,5 @@
 """Check Linux release-mode GDExtension binaries on the CI build baseline."""
 
-import os
 import re
 import subprocess
 from pathlib import Path
