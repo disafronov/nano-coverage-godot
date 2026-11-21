@@ -110,7 +110,7 @@ jobs:
           zip -r ../nano_coverage_godot_${{ inputs.version }}.zip addons/
 
       - name: Create Draft Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ inputs.version }}
           name: NanoCoverage ${{ inputs.version }}
