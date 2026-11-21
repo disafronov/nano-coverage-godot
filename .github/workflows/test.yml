@@ -44,7 +44,10 @@ jobs:
       - name: Make downloaded Godot executable
         run: chmod +x Godot_v4.5-stable_linux.x86_64
 
+      - name: Install virtual X11 display
+        run: sudo apt-get update && sudo apt-get install -y xvfb xauth
+
       - name: Run C++ and GdUnit4 tests
         env:
           SCONS_CACHE: .scons_cache
-        run: python scripts/test.py
+        run: xvfb-run -a python scripts/test.py
