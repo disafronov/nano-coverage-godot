@@ -32,9 +32,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .scons_cache/
-          key: ${{ matrix.platform }}-release-${{ github.sha }}
+          key: ${{ runner.os }}-${{ matrix.platform }}-release-${{ github.sha }}
           restore-keys: |
-            ${{ matrix.platform }}-release-
+            ${{ runner.os }}-${{ matrix.platform }}-release-
 
       - name: Setup Python
         uses: actions/setup-python@v5
