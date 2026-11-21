@@ -32,9 +32,9 @@ jobs:
         uses: actions/cache@v6
         with:
           path: .scons_cache/
-          key: ${{ runner.os }}-${{ matrix.platform }}-release-${{ github.sha }}
+          key: scons-v1-${{ runner.os }}-${{ runner.arch }}-${{ github.sha }}-${{ github.workflow }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.platform }}-release-
+            scons-v1-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Setup Python
         uses: actions/setup-python@v7
