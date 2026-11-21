@@ -62,10 +62,6 @@ def _construct_scons_command(args):
     if args.target == "template_debug":
         cmd.append("debug_symbols=yes")
         
-    cache_path = os.environ.get('SCONS_CACHE')
-    if cache_path:
-        cmd.append(f'cache_path={cache_path}')
-
     cmd.extend(_detect_compiler_flags())
     return cmd
 
