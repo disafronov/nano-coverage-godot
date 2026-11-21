@@ -29,9 +29,9 @@ jobs:
         uses: actions/cache@v6
         with:
           path: .scons_cache/
-          key: ${{ runner.os }}-scons-tests-${{ hashFiles('SConstruct', 'SConscript', '**/SConscript', '.gitmodules') }}
+          key: ${{ runner.os }}-${{ runner.arch }}-scons-tests-${{ hashFiles('SConstruct', '.gitmodules') }}
           restore-keys: |
-            ${{ runner.os }}-scons-tests-
+            ${{ runner.os }}-${{ runner.arch }}-scons-tests-
 
       - name: Set up Python
         uses: actions/setup-python@v7
