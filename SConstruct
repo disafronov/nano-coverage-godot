@@ -3,6 +3,9 @@ import os
 
 # Environment Setup
 env = SConscript("godot-cpp/SConstruct")
+cache_path = ARGUMENTS.get("cache_path")
+if cache_path:
+    env.CacheDir(cache_path)
 project_env = env.Clone()
 project_env.Replace(SHLIBPREFIX="")
 
