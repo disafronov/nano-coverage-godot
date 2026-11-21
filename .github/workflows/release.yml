@@ -71,7 +71,7 @@ jobs:
           scons platform=macos arch=arm64 target=template_debug build_tests=no
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lib-${{ matrix.platform }}
           path: demo/addons/nano_coverage_godot/bin/
