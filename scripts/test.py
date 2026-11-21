@@ -71,6 +71,8 @@ def run_gdunit_tests(godot_exe):
         "-i", "GdUnitTestDiscovererTest:test_scan_test_directories",
         # The 50 ms GUID benchmark is unreliable on shared CI runners.
         "-i", "GdUnitGuidTest:test_performance",
+        "-rd", "res://reports",
+        "-rc", "1",
         "-c"
     ]
     
