@@ -1,6 +1,15 @@
 name: Create Release
 
 on:
+  pull_request:
+    branches:
+      - local
+    paths:
+      - '.github/workflows/release.yml'
+      - 'SConstruct'
+      - 'godot-cpp/**'
+      - 'src/**'
+      - 'thirdparty/**'
   workflow_dispatch:
     inputs:
       version:
@@ -121,6 +130,7 @@ jobs:
           path: demo/addons/nano_coverage_godot/bin/
 
   package:
+    if: github.event_name == 'workflow_dispatch'
     name: Package & Release
     needs: build
     runs-on: ubuntu-latest
