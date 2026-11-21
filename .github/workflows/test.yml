@@ -21,6 +21,14 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Cache SCons build outputs
+        uses: actions/cache@v4
+        with:
+          path: .scons_cache/
+          key: ${{ runner.os }}-scons-tests-${{ hashFiles('SConstruct', 'SConscript', '**/SConscript', '.gitmodules') }}
+          restore-keys: |
+            ${{ runner.os }}-scons-tests-
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -29,5 +37,10 @@ jobs:
       - name: Prepare dependencies and Godot
         run: python scripts/setup.py
 
+      - name: Make downloaded Godot executable
+        run: chmod +x Godot_v4.5-stable_linux.x86_64
+
       - name: Run C++ and GdUnit4 tests
+        env:
+          SCONS_CACHE: .scons_cache
         run: python scripts/test.py
