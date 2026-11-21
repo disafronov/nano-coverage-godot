@@ -51,3 +51,13 @@ jobs:
         env:
           SCONS_CACHE: .scons_cache
         run: xvfb-run -a python scripts/test.py
+
+      - name: Upload test and coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-and-coverage-reports
+          path: |
+            demo/reports/
+            demo/coverage-report/
+          if-no-files-found: warn
