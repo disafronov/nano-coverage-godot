@@ -87,7 +87,7 @@ jobs:
               output = subprocess.check_output(["readelf", "--version-info", str(binary)], text=True)
               for family, limit in limits.items():
                   versions = [tuple(map(int, match.split("."))) for match in
-                              re.findall(r"\\b" + family + r"_(\\d+(?:\\.\\d+)+)\\b", output)]
+                              re.findall(r"\b" + family + r"_(\d+(?:\.\d+)+)\b", output)]
                   maximum = max(versions, default=None)
                   print(f"{binary}: {family} max {maximum}, allowed <= {limit}")
                   if maximum and maximum > limit:
