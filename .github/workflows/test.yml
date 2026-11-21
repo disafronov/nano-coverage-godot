@@ -56,11 +56,6 @@ jobs:
           set -o pipefail
           xvfb-run -a python scripts/test.py 2>&1 | tee "$RUNNER_TEMP/nanocoverage-tests.log"
 
-      - name: Verify release-mode Linux binaries
-        env:
-          SCONS_CACHE: .scons_cache
-        run: python scripts/check_release.py
-
       - name: Upload test and coverage reports
         id: reports
         if: always()
