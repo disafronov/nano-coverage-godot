@@ -17,7 +17,6 @@ Usage:
 """
 
 import sys
-import os
 import shutil
 import argparse
 import multiprocessing
