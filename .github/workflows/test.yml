@@ -53,6 +53,7 @@ jobs:
         id: tests
         env:
           SCONS_CACHE: .scons_cache
+          CPP_TEST_STATUS_FILE: ${{ runner.temp }}/cpp-tests.status
         shell: bash
         run: |
           set -o pipefail
@@ -73,5 +74,5 @@ jobs:
         if: always()
         env:
           ARTIFACT_URL: ${{ steps.reports.outputs.artifact-url }}
-          TEST_LOG: ${{ runner.temp }}/nanocoverage-tests.log
+          CPP_TEST_STATUS_FILE: ${{ runner.temp }}/cpp-tests.status
         run: python scripts/ci_summary.py
