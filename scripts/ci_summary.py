@@ -6,14 +6,15 @@ import xml.etree.ElementTree as ET
 
 
 def main():
-    cpp_status = Path(os.environ["CPP_TEST_STATUS_FILE"])
+    log = Path(os.environ["TEST_LOG"])
     xml = Path("demo/reports/report_1/results.xml")
     lcov = Path("demo/coverage-report/lcov.info")
     artifact_url = os.environ.get("ARTIFACT_URL", "")
     lines = []
 
-    cpp_passed = cpp_status.is_file() and cpp_status.read_text().strip() == "passed"
-    lines.append(f"- C++: {'passed' if cpp_passed else 'not confirmed'}")
+    lines.append(f"- Test step: {os.environ['TEST_STEP_OUTCOME']}")
+    output = log.read_text(errors="replace") if log.is_file() else ""
+    lines.append(f"- C++: {'passed' if '[OK] C++ Tests Passed' in output else 'not confirmed'}")
 
     if xml.is_file():
         root = ET.parse(xml).getroot()
