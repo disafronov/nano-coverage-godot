@@ -35,7 +35,7 @@ Dictionary CoverageApi::instrument_script(const String& source_code, const Strin
 
     if (!inst_res.ok) {
         result["success"] = false;
-        result["error"] = String::utf8(inst_res.error_message.data(), static_cast<int>(inst_res.error_message.size()));
+        result["error"] = String(inst_res.error_message.c_str());
         return result;
     }
 
