@@ -26,15 +26,6 @@ def main():
             f"- GdUnit4: {total - skipped}/{total} executed, "
             f"{failures} failures, {errors} errors, {flaky} flaky, {skipped} skipped"
         )
-        flaky_tests = [
-            f"{suite.get('name')}.{case.get('name')}"
-            for suite in root.findall("testsuite")
-            if int(suite.get("flaky", "0"))
-            for case in suite.findall("testcase")
-            if case.findall("failure") and not case.findall("skipped")
-        ]
-        if flaky_tests:
-            lines.append(f"  - Flaky: {', '.join(f'`{name}`' for name in flaky_tests)}")
     else:
         lines.append("- GdUnit4: report unavailable")
 
