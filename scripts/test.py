@@ -45,10 +45,6 @@ func _init():
     
     try:
         utils.run_command(cmd)
-        status_file = os.environ.get("CPP_TEST_STATUS_FILE")
-        if status_file:
-            with open(status_file, "w") as status:
-                status.write("passed\n")
         utils.log_success("C++ Tests Passed")
     finally:
         if os.path.exists(runner_script):
