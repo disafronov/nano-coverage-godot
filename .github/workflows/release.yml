@@ -47,7 +47,7 @@ jobs:
           cache-dependency-path: .github/workflows/release.yml
 
       - name: Install SCons
-        run: python -m pip install scons
+        run: pip install scons
 
       # godot-cpp/SConstruct reads SCONS_CACHE and configures SCons CacheDir.
       # Keep the cache directory consistent with the actions/cache path.
