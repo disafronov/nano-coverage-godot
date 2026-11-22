@@ -74,5 +74,4 @@ jobs:
         env:
           ARTIFACT_URL: ${{ steps.reports.outputs.artifact-url }}
           TEST_LOG: ${{ runner.temp }}/nanocoverage-tests.log
-          TEST_STEP_OUTCOME: ${{ steps.tests.outcome }}
         run: python scripts/ci_summary.py
