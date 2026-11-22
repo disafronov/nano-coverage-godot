@@ -50,7 +50,6 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y xvfb xauth
 
       - name: Run C++ and GdUnit4 tests
-        id: tests
         env:
           SCONS_CACHE: .scons_cache
         shell: bash
