@@ -12,7 +12,6 @@ def main():
     artifact_url = os.environ.get("ARTIFACT_URL", "")
     lines = []
 
-    lines.append(f"- Test step: {os.environ['TEST_STEP_OUTCOME']}")
     output = log.read_text(errors="replace") if log.is_file() else ""
     lines.append(f"- C++: {'passed' if '[OK] C++ Tests Passed' in output else 'not confirmed'}")
 
