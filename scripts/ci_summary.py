@@ -6,14 +6,14 @@ import xml.etree.ElementTree as ET
 
 
 def main():
-    log = Path(os.environ["TEST_LOG"])
+    cpp_status = Path(os.environ["CPP_TEST_STATUS_FILE"])
     xml = Path("demo/reports/report_1/results.xml")
     lcov = Path("demo/coverage-report/lcov.info")
     artifact_url = os.environ.get("ARTIFACT_URL", "")
     lines = []
 
-    output = log.read_text(errors="replace") if log.is_file() else ""
-    lines.append(f"- C++: {'passed' if '[OK] C++ Tests Passed' in output else 'not confirmed'}")
+    cpp_passed = cpp_status.is_file() and cpp_status.read_text().strip() == "passed"
+    lines.append(f"- C++: {'passed' if cpp_passed else 'not confirmed'}")
 
     if xml.is_file():
         root = ET.parse(xml).getroot()
@@ -26,15 +26,6 @@ def main():
             f"- GdUnit4: {total - skipped}/{total} executed, "
             f"{failures} failures, {errors} errors, {flaky} flaky, {skipped} skipped"
         )
-        flaky_tests = [
-            f"{suite.get('name')}.{case.get('name')}"
-            for suite in root.findall("testsuite")
-            if int(suite.get("flaky", "0"))
-            for case in suite.findall("testcase")
-            if case.findall("failure") and not case.findall("skipped")
-        ]
-        if flaky_tests:
-            lines.append(f"  - Flaky: {', '.join(f'`{name}`' for name in flaky_tests)}")
     else:
         lines.append("- GdUnit4: report unavailable")
 
