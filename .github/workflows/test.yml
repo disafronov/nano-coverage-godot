@@ -43,11 +43,12 @@ jobs:
       - name: Prepare dependencies and Godot
         run: python scripts/setup.py
 
-      - name: Make downloaded Godot executable
-        run: chmod +x Godot_v4.5-stable_linux.x86_64
-
       - name: Install virtual X11 display
-        run: sudo apt-get update && sudo apt-get install -y xvfb xauth
+        run: |
+          if ! command -v xvfb-run >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y xvfb
+          fi
 
       - name: Run C++ and GdUnit4 tests
         env:
